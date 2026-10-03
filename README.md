@@ -1,6 +1,6 @@
 # Practical Agent Skills
 
-Xuuuuu04 的 AI 编程设计资产：一份全局协作规范和六个 Skill，覆盖业务规则、后端架构、界面设计、代码整理、项目说明与交付检查。
+Xuuuuu04 的 AI 编程设计资产：一份全局协作规范和七个 Skill，覆盖业务规则、后端架构、界面设计、代码整理、项目说明、交付检查与会话交接。
 
 以小团队的实际交付为使用背景。人决定业务规则、优先顺序和重要代价；Agent 查证、提建议、实现并说明结果。设计与测试做到足以支持当前目标，不为形式增加流程。
 
@@ -15,12 +15,13 @@ Xuuuuu04 的 AI 编程设计资产：一份全局协作规范和六个 Skill，�
 | [代码重构与整理](harness/skills/code-refactor/SKILL.md) | 处理指定包中的真实问题，比较整理前后的行为 |
 | [维护项目说明](harness/skills/project-agents-md/SKILL.md) | 维护项目根目录 AGENTS.md 的运行与阅读入口 |
 | [交付前检查](harness/skills/pre-delivery-check/SKILL.md) | 检查功能、业务结果和受影响页面，如实报告完成程度 |
+| [会话交接](harness/skills/session-handoff/SKILL.md) | 换会话前直接输出项目理解、全部相关工作状态、信息缺口与下一步，不生成交接文件 |
 
 这套内容配合使用。公共协作规则写在全局 AGENTS.md，Skill 只补充对应任务的处理办法；部分 Skill 会调用同目录中其他 Skill 的脚本。单独取出一个文件可能缺少引用内容。
 
 ## 2. 文件组织
 
-以 harness 为内容来源。harness/AGENTS.md 是供工具读取的全局规则，harness/skills 保存六个 Skill；根目录 AGENTS.md 说明如何维护本仓库，CONTRIBUTING.md 规定写法与检查要求，install.sh 负责本机安装。
+以 harness 为内容来源。harness/AGENTS.md 是供工具读取的全局规则，harness/skills 保存七个 Skill；根目录 AGENTS.md 说明如何维护本仓库，CONTRIBUTING.md 规定写法与检查要求，install.sh 负责本机安装。
 
 Skill 使用直接指导执行的写法，作者背景与聊天记录不进入指令。英文名称用于文件与工具识别，正文使用中文。
 

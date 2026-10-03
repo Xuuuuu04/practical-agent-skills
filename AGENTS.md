@@ -1,7 +1,7 @@
 # Practical Agent Skills
 
 ## 这个项目是什么
-一份全局协作规范和六个 Skill，覆盖业务规则、后端架构、界面设计、代码整理、项目说明与交付检查。内容公开供阅读，使用许可见 README。维护已有设计资产，按真实使用中的问题改进，不扩成通用工具集合。
+一份全局协作规范和七个 Skill，覆盖业务规则、后端架构、界面设计、代码整理、项目说明、交付检查与会话交接。内容公开供阅读，使用许可见 README。维护已有设计资产，按真实使用中的问题改进，不扩成通用工具集合。
 
 ## 怎么运行
 - 依赖：bash、python3。安装到本机用 `./install.sh`；选择工具用 `./install.sh claude codex`；预览用 `./install.sh --dry-run`。修改 harness 下文件后重新安装，新开会话才生效。
@@ -20,6 +20,7 @@
 ## 目录地图
 - `harness/AGENTS.md`：全局协作规范，供各工具读取。
 - `harness/skills/business-rules/`：业务规则与验收样例。
+- `harness/skills/session-handoff/`：换会话时直接输出可复制的交接内容。
 - `harness/skills/backend-architecture-design/`：FastAPI 单体后端设计；references 保存模板和检查说明。
 - `harness/skills/interface-design/`：页面与交互设计；references 保存情境与资料。
 - `harness/skills/code-refactor/`：按明确指定的包整理代码。
@@ -32,13 +33,14 @@
 - 协作、授权、中文和 Git：全局 `harness/AGENTS.md`；共同规则不复制进各 Skill。
 - Skill 统一视角和后续维护：CONTRIBUTING.md；正文直接指导执行，不加人物背景或口述经历。
 - 字段含义、未定规则与验收样例：`harness/skills/business-rules/SKILL.md`。
+- 项目理解、工作状态、已知信息缺口与接手步骤：`harness/skills/session-handoff/SKILL.md`。
 - 中文写法：全局第 9 节及 `harness/skills/pre-delivery-check/references/wording.md`。
 - 默认长度限制：`harness/skills/pre-delivery-check/scripts/change_health.py`；改变默认值时同时修改 code-refactor 的长度表。
 - 项目说明格式：`harness/skills/project-agents-md/SKILL.md`；八个小节与检查脚本 REQUIRED_SECTIONS 保持一致。
 - 安装位置：install.sh 中的 TARGETS；备份在家目录的 prompt-skill-backup-时间目录。
 
 ## 数据怎么流动
-harness 是内容来源。install.sh 把全局规范复制到各工具的配置目录；Claude 的 CLAUDE.md 用导入行读取。六个 Skill 复制到 Claude 的 Skill 目录和共享的 ~/.agents/skills，后者供 Codex、两个独立 Codex、ZCode、pi 使用。安装副本不直接修改。
+harness 是内容来源。install.sh 把全局规范复制到各工具的配置目录；Claude 的 CLAUDE.md 用导入行读取。七个 Skill 复制到 Claude 的 Skill 目录和共享的 ~/.agents/skills，后者供 Codex、两个独立 Codex、ZCode、pi 使用。安装副本不直接修改。
 
 公开仓库只接收明确选择的发布文件，以独立历史开始。原开发仓库保留历史与本机资料；后续仍从 harness 修改、检查后同步公开副本，不把本机工作目录整体推送。公开副本保存在本机 .agent/public-repo，其远程地址以实际 Git 配置为准。
 
