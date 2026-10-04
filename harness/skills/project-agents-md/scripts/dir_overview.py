@@ -9,7 +9,7 @@ import os
 import sys
 
 SKIPPED_DIRECTORIES = {
-    ".git", ".hg", ".svn", ".agent", ".agents", ".claude", ".codex", ".zcode",
+    ".git", ".hg", ".svn", ".agents", ".claude", ".codex", ".zcode",
     ".idea", ".vscode", ".venv", "venv", "env", "node_modules", "__pycache__",
     ".mypy_cache", ".pytest_cache", ".ruff_cache", "dist", "build", ".next",
     ".nuxt", "coverage", "htmlcov", ".tox",

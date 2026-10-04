@@ -46,6 +46,11 @@ def run_git(repository, arguments):
     return result.stdout
 
 
+# 本机工作记录不参与代码检查，项目 Skill 仍需要检查。
+def is_local_agent_record(path):
+    return path.startswith(".agents/") and not path.startswith(".agents/skills/")
+
+
 # 列出和起点相比有改动的文件，以及每个文件是新增、修改、移动还是删除
 def list_changed_files(repository, base):
     changed = {}
@@ -56,13 +61,13 @@ def list_changed_files(repository, base):
         changed[path] = {"A": "新增", "D": "删除", "R": "移动"}.get(status, "修改")
     for path in run_git(repository, ["ls-files", "--others", "--exclude-standard"]).splitlines():
         changed[path] = "新增"
-    return {path: status for path, status in changed.items() if not path.startswith(".agent/")}
+    return {path: status for path, status in changed.items() if not is_local_agent_record(path)}
 
 
 # 列出指定包目录下的全部文件（已跟踪的和还没加入 git 的），整理一个包之前用它看现状
 def list_package_files(repository, package):
     output = run_git(repository, ["ls-files", "--cached", "--others", "--exclude-standard", "--", package])
-    return {path: "范围内" for path in output.splitlines() if not path.startswith(".agent/")}
+    return {path: "范围内" for path in output.splitlines() if not is_local_agent_record(path)}
 
 
 # 找出一个文件里被这次改动动过的行号，用来区分"本次改动"和"原有"的问题
