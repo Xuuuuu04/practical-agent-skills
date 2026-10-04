@@ -1,15 +1,16 @@
 # Practical Agent Skills
 
-Xuuuuu04 的 AI 编程设计资产：一份全局协作规范和七个 Skill，覆盖业务规则、后端架构、界面设计、代码整理、项目说明、交付检查与会话交接。
+Xuuuuu04 的 AI 编程设计资产：木木的全局规范和八个 Skill，覆盖业务规则、排错修复、后端架构、界面设计、代码整理、项目说明、交付检查与会话交接。
 
-以小团队的实际交付为使用背景。人决定业务规则、优先顺序和重要代价；Agent 查证、提建议、实现并说明结果。设计与测试做到足以支持当前目标，不为形式增加流程。
+木木热爱创造，有自己的判断与品味，把项目当成值得长期照看的作品。遇到错误先查实际原因，再判断该修局部、共用规则还是结构；设计、实现与检查共同服务于作品质量。日常交流用短而有情绪的大白话，详细证据留在能查看的位置。
 
 ## 1. 内容
 
 | 资产 | 用途 |
 | --- | --- |
-| [全局协作规范](harness/AGENTS.md) | 平级协作、主动纠错、何时等待、时间与进度、中文表达、Git 提交 |
+| [木木](harness/AGENTS.md) | 人格与开发理念、主动判断、时间与进度、中文表达、Git 提交 |
 | [业务规则与验收样例](harness/skills/business-rules/SKILL.md) | 用具体输入和结果明确业务规则，供实现与检查共用 |
+| [排错与修复](harness/skills/debug/SKILL.md) | 顺着实际数据定位原因，选择合适修法，验证同一原因影响的部分并改善定位能力 |
 | [后端架构设计](harness/skills/backend-architecture-design/SKILL.md) | FastAPI 单体后端的模块组织、数据处理与旧系统迁移 |
 | [界面设计](harness/skills/interface-design/SKILL.md) | 按使用任务安排页面、导航、操作过程与视觉样式 |
 | [代码重构与整理](harness/skills/code-refactor/SKILL.md) | 处理指定包中的真实问题，比较整理前后的行为 |
@@ -21,13 +22,13 @@ Xuuuuu04 的 AI 编程设计资产：一份全局协作规范和七个 Skill，�
 
 ## 2. 文件组织
 
-以 harness 为内容来源。harness/AGENTS.md 是供工具读取的全局规则，harness/skills 保存七个 Skill；根目录 AGENTS.md 说明如何维护本仓库，CONTRIBUTING.md 规定写法与检查要求，install.sh 负责本机安装。
+以 harness 为内容来源。harness/AGENTS.md 是供工具读取的全局规则，harness/skills 保存八个 Skill；根目录 AGENTS.md 说明如何维护本仓库，CONTRIBUTING.md 规定写法与检查要求，install.sh 负责本机安装。
 
 Skill 使用直接指导执行的写法，作者背景与聊天记录不进入指令。英文名称用于文件与工具识别，正文使用中文。
 
 ## 3. 维护者的安装方式
 
-安装脚本依赖 bash、python3，本机已在 macOS 执行；Linux 和 Windows 原生环境尚未实测。支持 Claude Code、Codex、ZCode、pi，也识别维护者自定义的 GLMX 和 MiniMax Codex 配置目录；后两者不是通用安装要求。
+安装脚本依赖 bash、python3，本机已在 macOS 执行；Linux 和 Windows 原生环境尚未实测。支持 Claude Code、Codex、ZCode、pi、TRAE SOLO CN，也识别维护者自定义的 GLMX 和 MiniMax Codex 配置目录；后两者不是通用安装要求。
 
 ```bash
 # 先查看目标位置，预览不会修改安装目录
@@ -36,13 +37,16 @@ Skill 使用直接指导执行的写法，作者背景与聊天记录不进入�
 # 按已有工具选择安装
 ./install.sh claude codex
 
+# 本机 TRAE SOLO CN
+./install.sh trae-cn
+
 # 或安装到全部已存在的目标配置目录
 ./install.sh
 ```
 
-安装会替换所选工具的全局 AGENTS.md，以及本仓库同名 Skill；先备份到家目录中的 prompt-skill-backup-时间。Claude 的 CLAUDE.md 保留原内容，通过导入行读取规则。其他 Skill 不替换；目标配置目录不存在时跳过。
+安装会替换所选工具的全局 AGENTS.md，以及本仓库同名 Skill；先备份到家目录中的 prompt-skill-backup-时间。Claude 的 CLAUDE.md 保留原内容，通过导入行读取规则。TRAE SOLO CN 的全局规范单独写入 `~/.trae-cn/user_rules/practical-agent-skills.md`，保留其他个人规则。其他 Skill 不替换；目标配置目录不存在时跳过。
 
-Codex、ZCode 和 pi 共用 ~/.agents/skills，Claude 使用 ~/.claude/skills。不要再把同一 Skill 放进 Codex 或 ZCode 的私有 Skill 目录。安装后新开会话；工具实际读取行为可能随版本变化，需要分别检查。
+Codex、ZCode 和 pi 共用 ~/.agents/skills，Claude 使用 ~/.claude/skills，TRAE SOLO CN 使用 ~/.trae-cn/skills。不要再把同一 Skill 放进 Codex 或 ZCode 的私有 Skill 目录。TRAE SOLO CN 安装后重启应用，在“规则与记忆”和“插件市场 → 管理 → 技能 → 个人”确认识别结果。其他工具安装后新开会话；工具实际读取行为可能随版本变化，需要分别检查。
 
 ## 4. 维护与验证
 

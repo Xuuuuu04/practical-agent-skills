@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 把 harness/ 下的全局规范和 Skill 安装到 Claude Code、Codex（含 GLMX、MiniMax）、ZCode、pi。
+# 把 harness/ 下的全局规范和 Skill 安装到 Claude Code、Codex（含 GLMX、MiniMax）、ZCode、pi、TRAE SOLO CN。
 # 用法：
 #   ./install.sh                 安装到全部工具
 #   ./install.sh claude codex    只安装到指定工具
@@ -23,6 +23,7 @@ TARGETS=(
   "codex-minimax|$HOME/.minimax-codex/AGENTS.md|$HOME/.agents/skills"
   "zcode|$HOME/.zcode/AGENTS.md|$HOME/.agents/skills"
   "pi|$HOME/.pi/agent/AGENTS.md|$HOME/.agents/skills"
+  "trae-cn|$HOME/.trae-cn/user_rules/practical-agent-skills.md|$HOME/.trae-cn/skills"
 )
 
 # Claude Code 只读 CLAUDE.md。全局规范通过这一行导入，CLAUDE.md 里用户自己写的内容保留。
@@ -87,12 +88,15 @@ for target in "${TARGETS[@]}"; do
   if [ ${#SELECTED[@]} -gt 0 ] && [[ ! " ${SELECTED[*]} " =~ " $name " ]]; then
     continue
   fi
-  if [ ! -d "$(dirname "$prompt")" ]; then
+  config_dir="$(dirname "$prompt")"
+  [ "$name" = "trae-cn" ] && config_dir="$HOME/.trae-cn"
+  if [ ! -d "$config_dir" ]; then
     echo "[$name] 本机没有安装，跳过。"
     continue
   fi
   echo "[$name]"
   backup "$prompt"
+  run mkdir -p "$(dirname "$prompt")"
   run cp "$PROMPT_FILE" "$prompt"
   [ "$name" = "claude" ] && ensure_claude_import
   install_skills "$skills"
@@ -101,4 +105,4 @@ done
 if [ "$DRY_RUN" -eq 0 ] && [ -d "$BACKUP_DIR" ]; then
   echo "原有内容已备份到：$BACKUP_DIR"
 fi
-echo "完成。新开会话后生效。"
+echo "完成。新开会话后生效；TRAE SOLO CN 请重启应用后确认规则与 Skill。"

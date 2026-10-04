@@ -4,7 +4,7 @@
 
 ## 失败信息的写法
 
-每条失败信息写清文件、行号、规则、原因和处理办法，让人和 Agent 都能据此找到问题。例如：
+下面是程序检查记录的写法，保留文件、行号、规则、原因和处理办法。跟用户反馈时先说它影响哪件事，详情需要时再给，不照着日志逐条念。例如：
 
 ```
 server/modules/order_refund_calculation/components/calculate_refund_amount.py:48

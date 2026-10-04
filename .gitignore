@@ -1,3 +1,4 @@
-.agent/
+.agents/*
+!.agents/skills/
 .DS_Store
 __pycache__/

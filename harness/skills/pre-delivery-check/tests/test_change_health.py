@@ -5,6 +5,8 @@ import io
 from pathlib import Path
 import runpy
 import sys
+import subprocess
+import tempfile
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
@@ -20,6 +22,26 @@ LIMITS = SimpleNamespace(max_file_lines=400, max_script_lines=200,
 
 # 这些样例检查用户关心的文字提示、改动归属和检查完成程度
 class ChangeHealthTests(unittest.TestCase):
+    # 工作记录留在本机，项目 Skill 在改动检查和按包检查中都不能漏掉。
+    def test_project_skills_are_checked_without_local_records(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            subprocess.run(["git", "init", "-q", directory], check=True)
+            subprocess.run([
+                "git", "-C", directory, "-c", "user.name=Test", "-c",
+                "user.email=test@example.invalid", "-c", "commit.gpgsign=false",
+                "commit", "--allow-empty", "-qm", "测试起点",
+            ], check=True)
+            for name in [".agents/tasks/work.md", ".agents/decisions.md",
+                         ".agents/skills/example/SKILL.md", "app.py"]:
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("# 示例\n")
+            self.assertEqual(set(CHECKS["list_changed_files"](directory, "HEAD")),
+                             {".agents/skills/example/SKILL.md", "app.py"})
+            self.assertEqual(set(CHECKS["list_package_files"](directory, ".agents")),
+                             {".agents/skills/example/SKILL.md"})
+
     # 从新代码样例取出检查结果，不创建项目文件
     def code_findings(self, source, suffix=".py"):
         return CHECKS["inspect_code_lines"](
