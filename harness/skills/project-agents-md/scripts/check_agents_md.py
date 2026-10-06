@@ -24,7 +24,7 @@ LOG_STYLE_PATTERNS = [
     (re.compile(r"^\s*[-*]?\s*\d{4}[-/.]\d{1,2}[-/.]\d{1,2}"), "以日期开头，像是改动记录"),
     (re.compile(r"更新记录|修改记录|变更记录|本次修改|本次更新|最近更新|changelog", re.IGNORECASE),
      "像是改动记录"),
-    (re.compile(r"^\s*[-*]?\s*(已完成|进行中|待办)[：:]"), "像是任务进度，应写在 .agents/tasks/"),
+    (re.compile(r"^\s*[-*]?\s*(已完成|进行中|待办)[：:]"), "像是任务进度，项目说明只保留长期有效的信息"),
 ]
 BACKTICK_TEXT = re.compile(r"`([^`\n]+)`")
 PATH_LIKE = re.compile(r"^[\w.\-/]+$")

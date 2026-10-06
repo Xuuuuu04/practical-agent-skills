@@ -29,7 +29,7 @@
 - `harness/skills/project-agents-md/`：项目说明维护；scripts 保存目录概览和格式检查。
 - `harness/skills/pre-delivery-check/`：交付检查；scripts 保存改动与用词检查，references 保存中文示例和行为检查办法，tests 保存脚本测试。
 - `install.sh`：安装脚本；README.md：内容入口与许可；CONTRIBUTING.md：长期写法和检查约定。
-- `.agents/`：统一保存任务、决定、环境说明与公开仓库的本机工作目录；这些资料不公开，项目专用 Skill 按需使用其中的 skills 子目录。
+- `.agents/`：保存已有本机资料与公开仓库的本机工作目录；这些资料不公开，项目专用 Skill 按需使用其中的 skills 子目录。
 
 ## 去哪里找
 - 协作、授权、中文和 Git：全局 `harness/AGENTS.md`；共同规则不复制进各 Skill。
