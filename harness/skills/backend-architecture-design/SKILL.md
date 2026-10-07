@@ -53,4 +53,4 @@ Pydantic 表达数据格式，字段说明含义，必要时补来源、单位�
 4. 新旧写入从相同隔离初始数据运行，付款与通知用替代服务。
 5. 比较全部差异，完成部署、性能与兼容检查后按授权切换；同一请求只由一套后端处理。
 
-[模板](references/templates.md) 按需查用；[质量检查](references/quality-checks.md) 只选适用项。公共层变化覆盖受影响模块，交付用 pre-delivery-check。
+公共层变化覆盖受影响模块，交付用 pre-delivery-check。

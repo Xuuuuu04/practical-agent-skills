@@ -1,12 +1,9 @@
-"""检查中文用词、明确标注的示例和安装前的词表一致性。"""
+"""从全局规范读取中文词表，检查用词与明确标注的示例。"""
 
 import argparse
 import ast
 from pathlib import Path
 import re
-
-# 全局规范与扫描脚本共用这份改写建议，安装前检查全局副本是否一致。
-WORDING_FILE = Path(__file__).resolve().parent.parent / "references" / "wording.md"
 
 # 取出代码中的文字：Python 按语法读取字符串，其他语言近似读取字符串和界面文字
 def code_text_lines(source, suffix):
@@ -24,16 +21,32 @@ def code_text_lines(source, suffix):
             for number, line in enumerate(source.splitlines(), start=1)}
 
 
-# 读取晦涩用词表；缺少文件时不能声称完成了用词检查
-def load_wording():
-    words = {}
-    with open(WORDING_FILE, encoding="utf-8") as file:
-        for line in file:
-            cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-            if not line.startswith("|") or len(cells) != 2 or cells[0] in ("词", "---"):
-                continue
-            for word in cells[0].split("、"):
-                words[word.strip()] = cells[1]
+# 只从配套目录定位全局规范，共享 Skill 由调用者明确指定。
+def find_agents_file():
+    root = Path(__file__).resolve().parents[3]
+    if root.name == ".agents":
+        raise ValueError("共享 Skill 需要用 --agents <当前全局规范文件> 指定词表来源")
+    if root.name == ".trae-cn":
+        return root / "user_rules/practical-agent-skills.md"
+    return root / "AGENTS.md"
+
+
+# 词表只在全局规范维护；缺失、重复或格式错误时停止检查。
+def load_wording(agents_path=None):
+    source = Path(agents_path or find_agents_file()).read_text(encoding="utf-8")
+    lines = [line.strip() for line in source.splitlines()]
+    example_lines(lines)
+    start, end = "<!-- wording:list:start -->", "<!-- wording:list:end -->"
+    if source.count(start) != 1 or source.count(end) != 1 or start not in lines or end not in lines:
+        raise ValueError("全局规范需要且只能有一对词表标记")
+    content = source.split(start, 1)[1].split(end, 1)[0].strip().rstrip("。")
+    if content.endswith("，以及直角引号"):
+        content = content[:-len("，以及直角引号")] + "、「、」"
+    words = [word.strip() for word in content.split("、")]
+    if not all(re.fullmatch(r"\w+|[「」]", word) for word in words):
+        raise ValueError("词表需要用顿号分隔非空词语或直角引号")
+    if len(words) != len(set(words)):
+        raise ValueError("词表包含重复项")
     return words
 
 
@@ -42,7 +55,7 @@ def wording_hits(text, wording):
     prose = re.sub(r"`[^`]*`", "", text)
     prose = re.sub(r"(?:Docker|docker|容器|磁盘|文件系统)[^。；\n]{0,16}挂载", "", prose)
     prose = re.sub(r"(?:输入框|文本框|光标|焦点)[^。；\n]{0,12}聚焦", "", prose)
-    return [f'"{word}"（可换成：{plain}）' for word, plain in wording.items() if word in prose]
+    return [f'"{word}"' for word in wording if word in prose]
 
 
 # 用词只产生提示，是否属于业务用语、引用或技术含义需要人工判断
@@ -75,35 +88,21 @@ def example_lines(lines):
     return ignored
 
 
-# 安装前比较全局词表与详细词表，只允许符号名称与符号本身的表示差异。
+# 安装前检查全局词表格式，不另外维护一份词表。
 def check_wording_list(agents_path):
-    source = Path(agents_path).read_text(encoding="utf-8")
-    example_lines(source.splitlines())
-    start, end = "<!-- wording:list:start -->", "<!-- wording:list:end -->"
-    if source.count(start) != 1 or source.count(end) != 1:
-        raise ValueError("全局规范需要且只能有一对词表标记")
-    content = source.split(start, 1)[1].split(end, 1)[0].strip().rstrip("。")
-    content = content.replace("，以及直角引号", "、「、」")
-    actual = {word.strip() for word in content.split("、")}
-    expected = set(load_wording())
-    if not expected:
-        raise ValueError("详细词表没有有效内容")
-    missing, extra = sorted(expected - actual), sorted(actual - expected)
-    if missing or extra:
-        raise ValueError(f"词表不一致；全局缺少：{missing}；全局多出：{extra}")
-    return len(expected)
+    return len(load_wording(agents_path))
 
 
 # 安装脚本调用这个入口；失败发生在替换任何已安装文件之前。
 def main():
-    parser = argparse.ArgumentParser(description="检查全局规范与详细词表是否一致")
+    parser = argparse.ArgumentParser(description="检查全局规范中的中文词表格式")
     parser.add_argument("--agents", required=True)
     args = parser.parse_args()
     try:
         count = check_wording_list(args.agents)
     except (OSError, ValueError) as error:
         parser.exit(1, f"用词检查未完成：{error}\n")
-    print(f"中文词表一致，共 {count} 个词和符号。")
+    print(f"中文词表有效，共 {count} 个词和符号。")
 
 
 if __name__ == "__main__":

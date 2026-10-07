@@ -55,4 +55,4 @@ description: 设计或调整网页、后台和移动页面的内容、导航、�
 
 浮层能进入、退出并返回合理位置。动效表达状态变化，尊重减少动态效果设置；目标设备无法检查时说明。
 
-细节查[场景与资料](references/patterns.md)，交付用 pre-delivery-check，实际错误用 debug。
+交付用 pre-delivery-check，实际错误用 debug。

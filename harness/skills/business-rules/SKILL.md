@@ -29,4 +29,4 @@ description: 业务规则或应得结果不明确时，用具体输入和结果�
 
 长期规则与样例在已有业务文档中维护一处；小讨论不另造文件。规则足够就开始实现，新事实只更新受影响部分。
 
-错误排查用 debug，交付用 pre-delivery-check。讨论办法参考 [Cucumber：Example Mapping](https://cucumber.io/docs/bdd/example-mapping/)。
+错误排查用 debug，交付用 pre-delivery-check。

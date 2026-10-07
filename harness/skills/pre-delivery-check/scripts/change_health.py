@@ -290,6 +290,7 @@ def parse_arguments():
     parser.add_argument("--repo", default=".", help="项目根目录")
     parser.add_argument("--base", default="HEAD", help="对比的起点，默认 HEAD（包括未提交的改动）")
     parser.add_argument("--package", help="检查这个包目录下的全部文件，而不是只看改动（整理一个包时用）")
+    parser.add_argument("--agents", help="当前工具的全局规范文件，共享 Skill 调用时必须指定")
     # 下面几项是各类内容的长度上限，改动时要同步改 code-refactor Skill 里的表格
     parser.add_argument("--max-file-lines", type=int, default=400)
     parser.add_argument("--max-function-lines", type=int, default=60)
@@ -362,12 +363,9 @@ def main():
     scope = limits.package or f"相对 {limits.base} 的改动"
     print(f"检查范围：{scope}，共 {len(changed)} 个文件")
     try:
-        wording = load_wording()
-    except OSError as error:
+        wording = load_wording(limits.agents)
+    except (OSError, ValueError) as error:
         print(f"无法读取用词表，检查未完成：{error}")
-        sys.exit(2)
-    if not wording:
-        print("用词表没有有效内容，检查未完成。")
         sys.exit(2)
     try:
         findings = collect_findings(changed, limits, wording)

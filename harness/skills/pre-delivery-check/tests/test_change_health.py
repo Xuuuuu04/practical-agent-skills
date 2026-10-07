@@ -9,7 +9,7 @@ import subprocess
 import tempfile
 from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 # 读取同一个 Skill 中的脚本，测试不依赖安装后的副本
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts/change_health.py"
@@ -133,9 +133,21 @@ class ChangeHealthTests(unittest.TestCase):
 
     # 缺少词表时不能声称完成了检查
     def test_missing_word_list_is_not_ignored(self):
-        with patch.dict(CHECKS["load_wording"].__globals__, WORDING_FILE="/missing/wording.md"):
-            with self.assertRaises(FileNotFoundError):
-                CHECKS["load_wording"]()
+        with tempfile.TemporaryDirectory() as directory, self.assertRaises(FileNotFoundError):
+            CHECKS["load_wording"](Path(directory) / "AGENTS.md")
+
+    # 规范存在但词表格式错误时，命令应明确报告未完成。
+    def test_invalid_word_list_is_reported(self):
+        limits = SimpleNamespace(repo=".", package=None, base="HEAD", agents=None)
+        globals_ = CHECKS["main"].__globals__
+        with patch.dict(globals_, parse_arguments=lambda: limits,
+                        list_changed_files=lambda repo, base: {"app.py": "修改"},
+                        load_wording=Mock(side_effect=ValueError("词表包含重复项"))), \
+                contextlib.redirect_stdout(io.StringIO()) as output, \
+                self.assertRaises(SystemExit) as result:
+            CHECKS["main"]()
+        self.assertEqual(result.exception.code, 2)
+        self.assertIn("检查未完成", output.getvalue())
 
     # 框架记录后继续抛出，或转成约定的失败结果，不能仅凭捕获范围判失败。
     def test_error_reporting_requires_context(self):

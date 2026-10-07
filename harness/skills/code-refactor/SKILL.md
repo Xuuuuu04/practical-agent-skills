@@ -21,7 +21,7 @@ description: 用户指定整理或优化某个包时，减少重复和不必要�
 
 ## 3. 检查长度与行为
 
-开始和结束运行 `python <本 Skill 所在目录>/../pre-delivery-check/scripts/change_health.py --repo <项目根目录> --package <包目录>`。
+开始和结束运行 `python <本 Skill 所在目录>/../pre-delivery-check/scripts/change_health.py --repo <项目根目录> --package <包目录> --agents <当前全局规范文件>`。
 
 项目明确限制优先；以下为脚本默认提示值，超出后检查重复与独立步骤，不硬拆连续计算：
 

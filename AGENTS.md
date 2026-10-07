@@ -7,7 +7,7 @@
 维护者改进协作规范与任务方法，经安装脚本供工具读取；读者通过公开仓库了解内容。
 
 ## 设计概要
-共同规则在全局规范，任务方法在 Skill，较长资料与工具在对应目录。harness 是内容来源，安装副本供工具读取。
+共同规则在全局规范，任务方法在 Skill，脚本与测试在对应目录。harness 是内容来源，安装副本供工具读取。
 
 ## 怎么运行
 - 依赖：bash、python3。安装用 `./install.sh`，选择工具用 `./install.sh claude codex`，预览用 `./install.sh --dry-run`。
@@ -15,17 +15,17 @@
 - 脚本测试：`python3 -m unittest discover -s harness/skills/pre-delivery-check/tests -v`
 - 安装语法：`bash -n install.sh`
 - 词表：`python3 harness/skills/pre-delivery-check/scripts/wording_checks.py --agents harness/AGENTS.md`，安装前自动执行。
-- 情境检查：按 `harness/skills/pre-delivery-check/references/behavior-checks.md` 在临时目录选相关场景；已配置工具各尝试，失败记原因。
+- 情境检查：按 pre-delivery-check 在临时目录选相关场景；已配置工具各尝试，失败记原因。
 - 安装后新开会话；TRAE SOLO CN 重启后在规则与技能管理中查看识别情况。GLMX、MiniMax 为独立配置，目录不存在时跳过。
 
 ## 目录地图
 - `harness/AGENTS.md`：共同规则。
-- `harness/skills/`：八个 Skill；references 放资料，scripts 放工具，tests 放工具测试。
+- `harness/skills/`：八个 Skill；scripts 放工具，tests 放工具测试。
 - `install.sh`：安装；README.md：公开入口与许可；CONTRIBUTING.md：维护写法。
 
 ## 去哪里找
 - 任务方法：`harness/skills/` 下各 SKILL.md；读 README 的用途表选择。
-- 中文例句与词表：`harness/skills/pre-delivery-check/references/wording.md`。
+- 中文写法与词表：`harness/AGENTS.md` 第 9 节。
 - 长度默认值：`harness/skills/pre-delivery-check/scripts/change_health.py`；变化时更新 code-refactor 的提示值表。
 - 项目说明：`harness/skills/project-agents-md/SKILL.md`；小节与检查脚本 SUPPORTED_SECTIONS 一致。
 - 安装位置：install.sh 的 TARGETS；旧文件备份在家目录的 prompt-skill-backup-时间目录。

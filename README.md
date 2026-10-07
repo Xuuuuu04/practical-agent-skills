@@ -18,7 +18,7 @@ Xuuuuu04 的 AI 编程设计资产：木木的全局规范和八个 Skill。共�
 
 ## 组织与维护
 
-harness 是内容来源，根目录 AGENTS.md 提供项目入口，CONTRIBUTING.md 说明维护写法，install.sh 负责安装。Skill 之间有资料与脚本引用，安装整套内容以保留依赖。
+harness 是内容来源，根目录 AGENTS.md 提供项目入口，CONTRIBUTING.md 说明维护写法，install.sh 负责安装。Skill 之间有脚本调用，安装整套内容以保留依赖。
 
 ## 安装
 

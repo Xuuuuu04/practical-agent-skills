@@ -13,7 +13,7 @@ description: 交付改动或审查实现时，检查实际差异、业务结果�
 
 ## 2. 查实际差异
 
-代码或结构变化运行 `python <本 Skill 所在目录>/scripts/change_health.py --repo <项目根目录>`。默认比较最近提交及工作区；已提交改动用 `--base main` 或 `--base HEAD~1` 指定起点。
+代码或结构变化运行 `python <本 Skill 所在目录>/scripts/change_health.py --repo <项目根目录> --agents <当前全局规范文件>`。默认比较最近提交及工作区；已提交改动用 `--base main` 或 `--base HEAD~1` 指定起点。
 
 结合调用检查规则归属、依赖、重复补丁、失败处理和多余内容，覆盖实际受影响的搜索、分页、导出、保存与外部动作。
 
@@ -25,7 +25,9 @@ description: 交付改动或审查实现时，检查实际差异、业务结果�
 
 界面变化按 interface-design 操作实际页面，比较业务预期、接口与显示，再试相关返回、取消和失败恢复。优先用 ego-browser；无法操作的页面标明未验证。
 
-提示词改动按[行为检查](references/behavior-checks.md)选择情境；被测工具不读题库和答案。文字按全局第 9 节及[写法说明](references/wording.md)检查整句，示例标记只跳过用词匹配。
+提示词改动选择相关隔离情境，预期与原回答分别保存，被测工具不读题库和答案。前后比较用同一模型和设置，没有有效输出记为未验证。
+
+文字按全局第 9 节检查整句。示例以 `wording:examples:start` 和 `wording:examples:end` 独立注释行包住，只跳过用词匹配。Markdown 用 HTML 注释，代码用 `#` 或 `//`。
 
 ## 4. 交付
 
