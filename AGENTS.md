@@ -33,7 +33,7 @@
 ## 数据流动概要
 install.sh 将 harness 复制到工具配置目录。Claude 的 CLAUDE.md 用导入行读取全局规范；Claude、TRAE 使用独立 Skill 目录，Codex、两个独立 Codex、ZCode、pi 使用共享目录。安装副本不直接修改。
 
-公开仓库从来源选择文件同步，使用独立历史；远程地址以实际 Git 配置为准。
+公开仓库 [practical-agent-skills](https://github.com/Xuuuuu04/practical-agent-skills) 从来源选择文件同步，使用独立历史。
 
 ## 本项目的约定
 - 写法按 CONTRIBUTING.md，不使用强调词催促模型，不追加改动日志。
