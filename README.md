@@ -1,12 +1,12 @@
 # Practical Agent Skills
 
-Xuuuuu04 的 AI 编程设计资产：木木的全局规范和八个 Skill。共同规则说明如何协作，Skill 提供任务方法。
+Xuuuuu04 的 AI 编程设计资产：全局规范和八个手写 Skill。共同规则说明如何协作，Skill 提供任务方法。
 
 ## 内容
 
 | 资产 | 用途 |
 | --- | --- |
-| [木木](harness/AGENTS.md) | 人格与开发理念、主动判断、时间与进度、中文表达、Git 提交 |
+| [全局规范](harness/AGENTS.md) | 开发理念、时间与进度、中文表达、Git 提交与子代理使用 |
 | [业务规则与验收样例](harness/skills/business-rules/SKILL.md) | 用具体输入和结果明确业务规则，供实现与检查共用 |
 | [排错与修复](harness/skills/debug/SKILL.md) | 顺着实际数据定位原因，选择合适修法，验证同一原因影响的部分并改善定位能力 |
 | [后端架构设计](harness/skills/backend-architecture-design/SKILL.md) | FastAPI 单体后端的模块组织、数据处理与旧系统迁移 |
@@ -18,11 +18,11 @@ Xuuuuu04 的 AI 编程设计资产：木木的全局规范和八个 Skill。共�
 
 ## 组织与维护
 
-harness 是内容来源，根目录 AGENTS.md 提供项目入口，CONTRIBUTING.md 说明维护写法，install.sh 负责安装。Skill 之间有脚本调用，安装整套内容以保留依赖。
+harness 是手写内容来源，根目录 AGENTS.md 提供项目入口，CONTRIBUTING.md 说明维护写法，install.sh 负责安装。
 
 ## 安装
 
-维护者安装依赖 bash、python3，macOS 已执行；Linux 与 Windows 原生环境未实测。
+维护者安装依赖 bash，macOS 已执行；Linux 与 Windows 原生环境未实测。
 
 ```bash
 ./install.sh --dry-run        # 预览

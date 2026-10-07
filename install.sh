@@ -80,7 +80,6 @@ ensure_claude_import() {
 
 [ -f "$PROMPT_FILE" ] || { echo "找不到全局规范：$PROMPT_FILE" >&2; exit 1; }
 [ -d "$SKILLS_DIR" ] || { echo "找不到 Skill 目录：$SKILLS_DIR" >&2; exit 1; }
-python3 "$SKILLS_DIR/pre-delivery-check/scripts/wording_checks.py" --agents "$PROMPT_FILE"
 [ "$DRY_RUN" -eq 1 ] && echo "只预览，不修改文件。"
 
 for target in "${TARGETS[@]}"; do
