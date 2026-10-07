@@ -1,10 +1,8 @@
 # Practical Agent Skills
 
-Xuuuuu04 的 AI 编程设计资产：木木的全局规范和八个 Skill，覆盖业务规则、排错修复、后端架构、界面设计、代码整理、项目说明、交付检查与会话交接。
+Xuuuuu04 的 AI 编程设计资产：木木的全局规范和八个 Skill。共同规则说明如何协作，Skill 提供任务方法。
 
-木木热爱创造，有自己的判断与品味，把项目当成值得长期照看的作品。遇到错误先查实际原因，再判断该修局部、共用规则还是结构；设计、实现与检查共同服务于作品质量。日常交流用短而有情绪的大白话，详细证据留在能查看的位置。
-
-## 1. 内容
+## 内容
 
 | 资产 | 用途 |
 | --- | --- |
@@ -18,44 +16,29 @@ Xuuuuu04 的 AI 编程设计资产：木木的全局规范和八个 Skill，覆�
 | [交付前检查](harness/skills/pre-delivery-check/SKILL.md) | 检查功能、业务结果和受影响页面，如实报告完成程度 |
 | [会话交接](harness/skills/session-handoff/SKILL.md) | 换会话前直接输出项目理解、全部相关工作状态、信息缺口与下一步，不生成交接文件 |
 
-这套内容配合使用。公共协作规则写在全局 AGENTS.md，Skill 只补充对应任务的处理办法；部分 Skill 会调用同目录中其他 Skill 的脚本。单独取出一个文件可能缺少引用内容。
+## 组织与维护
 
-## 2. 文件组织
+harness 是内容来源，根目录 AGENTS.md 提供项目入口，CONTRIBUTING.md 说明维护写法，install.sh 负责安装。Skill 之间有资料与脚本引用，安装整套内容以保留依赖。
 
-以 harness 为内容来源。harness/AGENTS.md 是供工具读取的全局规则，harness/skills 保存八个 Skill；根目录 AGENTS.md 说明如何维护本仓库，CONTRIBUTING.md 规定写法与检查要求，install.sh 负责本机安装。
+## 安装
 
-Skill 使用直接指导执行的写法，作者背景与聊天记录不进入指令。英文名称用于文件与工具识别，正文使用中文。
-
-## 3. 维护者的安装方式
-
-安装脚本依赖 bash、python3，本机已在 macOS 执行；Linux 和 Windows 原生环境尚未实测。支持 Claude Code、Codex、ZCode、pi、TRAE SOLO CN，也识别维护者自定义的 GLMX 和 MiniMax Codex 配置目录；后两者不是通用安装要求。
+维护者安装依赖 bash、python3，macOS 已执行；Linux 与 Windows 原生环境未实测。
 
 ```bash
-# 先查看目标位置，预览不会修改安装目录
-./install.sh --dry-run
-
-# 按已有工具选择安装
-./install.sh claude codex
-
-# 本机 TRAE SOLO CN
-./install.sh trae-cn
-
-# 或安装到全部已存在的目标配置目录
-./install.sh
+./install.sh --dry-run        # 预览
+./install.sh claude codex     # 选择工具
+./install.sh trae-cn          # TRAE SOLO CN
+./install.sh                  # 全部已有目标目录
 ```
 
-安装会替换所选工具的全局 AGENTS.md，以及本仓库同名 Skill；先备份到家目录中的 prompt-skill-backup-时间。Claude 的 CLAUDE.md 保留原内容，通过导入行读取规则。TRAE SOLO CN 的全局规范单独写入 `~/.trae-cn/user_rules/practical-agent-skills.md`，保留其他个人规则。其他 Skill 不替换；目标配置目录不存在时跳过。
+支持 Claude Code、Codex、ZCode、pi、TRAE SOLO CN，另识别维护者自定义 GLMX 与 MiniMax Codex。目标目录不存在时跳过；被替换内容先备份到家目录的 prompt-skill-backup-时间目录。
 
-Codex、ZCode 和 pi 共用 ~/.agents/skills，Claude 使用 ~/.claude/skills，TRAE SOLO CN 使用 ~/.trae-cn/skills。不要再把同一 Skill 放进 Codex 或 ZCode 的私有 Skill 目录。TRAE SOLO CN 安装后重启应用，在“规则与记忆”和“插件市场 → 管理 → 技能 → 个人”确认识别结果。其他工具安装后新开会话；工具实际读取行为可能随版本变化，需要分别检查。
+Claude 的 CLAUDE.md 保留原内容并导入全局规范；其他个人 Skill 保留。Codex、ZCode、pi 使用共享目录，Claude 与 TRAE 各用自己的目录。
 
-## 4. 维护与验证
+安装后新开会话，TRAE 重启后查看规则与技能识别。安装成功不证明模型实际遵守，检查办法见项目入口。
 
-维护办法见 [CONTRIBUTING.md](CONTRIBUTING.md)，具体命令见 [项目说明](AGENTS.md)。安装检查只能证明文件已复制；情境回答只能说明该次表现，不能证明长期任务或真实客户交付一定正确。
-
-一次性试验与本机记录不进入仓库。不默认新增 CI/CD；已有必要的检查照常执行。
-
-## 5. 公开范围与使用许可
+## 公开范围与许可
 
 Copyright © 2026 Xuuuuu04。
 
-本仓库公开供阅读，暂未提供开源许可证，也未授予额外的使用、修改或分发许可。需要这些授权时，请联系作者。README 中的安装说明记录维护者的工作方式，不表示授予使用许可。
+本仓库公开供阅读，暂未授予额外的使用、修改或分发许可。需要授权请联系作者；安装说明记录维护者的方式，不表示授予使用许可。

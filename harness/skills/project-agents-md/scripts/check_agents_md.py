@@ -1,6 +1,6 @@
 """Check a project-level AGENTS.md against the format of the project-agents-md skill.
 
-Read-only. Checks: line limit, required sections, whether paths written in backticks
+Read-only. Checks: suggested length, supported sections, whether paths written in backticks
 exist, and whether log-style lines (dates, change records) have crept in.
 Exit code 0 when everything passes, 1 otherwise.
 """
@@ -10,15 +10,15 @@ import os
 import re
 import sys
 
-REQUIRED_SECTIONS = [
-    "这个项目是什么",
+SUPPORTED_SECTIONS = [
+    "项目是什么",
+    "业务概要",
+    "设计概要",
     "怎么运行",
     "目录地图",
     "去哪里找",
-    "数据怎么流动",
+    "数据流动概要",
     "本项目的约定",
-    "不要做的事",
-    "已知的坑",
 ]
 LOG_STYLE_PATTERNS = [
     (re.compile(r"^\s*[-*]?\s*\d{4}[-/.]\d{1,2}[-/.]\d{1,2}"), "以日期开头，像是改动记录"),
@@ -46,15 +46,12 @@ def check_file(project_root, max_lines):
     problems = []
 
     if len(lines) > max_lines:
-        problems.append(f"全文 {len(lines)} 行，超过上限 {max_lines} 行。先压缩目录地图和已知的坑。")
+        print(f"长度提示：全文 {len(lines)} 行，建议不超过 {max_lines} 行；保留必要说明，详细内容给入口。")
 
     headings = [line.lstrip("#").strip() for line in lines if line.startswith("## ")]
-    for section in REQUIRED_SECTIONS:
-        if section not in headings:
-            problems.append(f"缺少小节：## {section}（没有内容时写“暂无”）")
-    extra_sections = [heading for heading in headings if heading not in REQUIRED_SECTIONS]
+    extra_sections = [heading for heading in headings if heading not in SUPPORTED_SECTIONS]
     for heading in extra_sections:
-        problems.append(f"出现了固定格式以外的小节：## {heading}。请把内容并入已有小节。")
+        problems.append(f"出现了建议结构以外的小节：## {heading}。请把内容并入已有小节。")
 
     for line_number, line in enumerate(lines, start=1):
         for pattern, reason in LOG_STYLE_PATTERNS:
